@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KapperBot Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d; --white: #f5f2ed; --green: #25d366;
+    --card: #141414; --border: #242424; --gray: #6b6b6b;
+    --sidebar-w: 220px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--black); color:var(--white); font-family:'DM Sans',sans-serif; display:flex; min-height:100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width:var(--sidebar-w); background:var(--card); border-right:1px solid var(--border);
+    display:flex; flex-direction:column; padding:1.5rem 0; position:fixed; height:100vh; top:0; left:0;
+  }
+  .sidebar-logo {
+    font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem;
+    padding:0 1.5rem 1.5rem; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo-dot { width:8px; height:8px; background:var(--green); border-radius:50%; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .sidebar-nav { flex:1; padding:1rem 0; }
+  .nav-item {
+    display:flex; align-items:center; gap:10px;
+    padding:0.7rem 1.5rem; color:var(--gray); text-decoration:none;
+    font-size:0.9rem; transition:all .15s; cursor:pointer;
+    border-left:2px solid transparent;
+  }
+  .nav-item:hover { color:var(--white); background:rgba(255,255,255,0.03); }
+  .nav-item.active { color:var(--white); border-left-color:var(--green); background:rgba(37,211,102,0.05); }
+  .nav-icon { font-size:14px; width:18px; text-align:center; }
+  .sidebar-footer { padding:1rem 1.5rem; border-top:1px solid var(--border); }
+  .user-info { display:flex; align-items:center; gap:10px; }
+  .user-av {
+    width:32px; height:32px; border-radius:50%;
+    background:rgba(37,211,102,0.2); color:var(--green);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;
+  }
+  .user-name { font-size:0.85rem; font-weight:500; }
+  .user-plan { font-size:0.75rem; color:var(--gray); }
+
+  /* MAIN */
+  .main { margin-left:var(--sidebar-w); flex:1; padding:2rem; }
+  .topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; }
+  .page-title { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; }
+  .topbar-right { display:flex; align-items:center; gap:1rem; }
+  .btn-add {
+    background:var(--green); color:#000; font-family:'Syne',sans-serif; font-weight:700;
+    padding:0.5rem 1.2rem; border-radius:8px; border:none; cursor:pointer; font-size:0.85rem;
+  }
+
+  /* STATS CARDS */
+  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+  .stat-card {
+    background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.25rem;
+  }
+  .stat-label { font-size:0.75rem; color:var(--gray); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:.5px; }
+  .stat-value { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; }
+  .stat-value.green { color:var(--green); }
+  .stat-delta { font-size:0.75rem; color:var(--gray); margin-top:4px; }
+  .stat-delta.up { color:#4caf50; }
+
+  /* TWO COLUMNS */
+  .two-col { display:grid; grid-template-columns:1fr 380px; gap:1.5rem; }
+
+  /* AFSPRAKEN */
+  .card { background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+  .card-header {
+    padding:1rem 1.25rem; border-bottom:1px solid var(--border);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .card-title { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:700; }
+  .badge { font-size:0.7rem; padding:2px 8px; border-radius:100px; font-weight:500; }
+  .badge-green { background:rgba(37,211,102,0.15); color:var(--green); }
+  .badge-gray { background:rgba(255,255,255,0.08); color:var(--gray); }
+
+  .appointment-list { padding:0.5rem 0; }
+  .appointment {
+    display:flex; align-items:center; gap:12px; padding:0.75rem 1.25rem;
+    border-bottom:1px solid var(--border); transition:background .15s;
+  }
+  .appointment:last-child { border-bottom:none; }
+  .appointment:hover { background:rgba(255,255,255,0.02); }
+  .appt-time {
+    font-size:0.75rem; color:var(--gray); min-width:42px; text-align:center;
+    font-family:'Syne',sans-serif; font-weight:700;
+  }
+  .appt-dot { width:8px; height:8px; border-radius:50%; background:var(--green); flex-shrink:0; }
+  .appt-dot.gray { background:var(--gray); }
+  .appt-dot.orange { background:#ff9500; }
+  .appt-info { flex:1; }
+  .appt-name { font-size:0.9rem; font-weight:500; }
+  .appt-service { font-size:0.78rem; color:var(--gray); }
+  .appt-price { font-family:'Syne',sans-serif; font-size:0.85rem; font-weight:700; color:var(--green); }
+
+  /* CHAT PREVIEW */
+  .chat-list { padding:0.5rem 0; }
+  .chat-item {
+    display:flex; align-items:center; gap:10px; padding:0.75rem 1.25rem;
+    border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s;
+  }
+  .chat-item:last-child { border-bottom:none; }
+  .chat-item:hover { background:rgba(255,255,255,0.02); }
+  .chat-item.unread .chat-name { font-weight:700; color:var(--white); }
+  .chat-av {
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(37,211,102,0.15); color:var(--green);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0;
+  }
+  .chat-info { flex:1; min-width:0; }
+  .chat-name { font-size:0.85rem; color:var(--gray); }
+  .chat-preview { font-size:0.78rem; color:var(--gray); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .chat-meta { text-align:right; }
+  .chat-time { font-size:0.7rem; color:var(--gray); }
+  .chat-unread {
+    width:16px; height:16px; border-radius:50%;
+    background:var(--green); color:#000;
+    font-size:0.65rem; font-weight:700;
+    display:flex; align-items:center; justify-content:center; margin-top:4px; margin-left:auto;
+  }
+
+  /* TODAY BADGE */
+  .date-label { font-size:0.75rem; color:var(--gray); padding:0.5rem 1.25rem; background:rgba(255,255,255,0.02); }
+
+  /* EMPTY STATE */
+  .empty { padding:3rem; text-align:center; color:var(--gray); font-size:0.9rem; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-dot"></span>
+    KapperBot
+  </div>
+  <nav class="sidebar-nav">
+    <a class="nav-item active" onclick="showPage('dashboard')">
+      <span class="nav-icon">▦</span> Dashboard
+    </a>
+    <a class="nav-item" onclick="showPage('afspraken')">
+      <span class="nav-icon">📅</span> Afspraken
+    </a>
+    <a class="nav-item" onclick="showPage('gesprekken')">
+      <span class="nav-icon">💬</span> Gesprekken
+      <span class="badge badge-green" style="margin-left:auto">3</span>
+    </a>
+    <a class="nav-item" onclick="showPage('klanten')">
+      <span class="nav-icon">👤</span> Klanten
+    </a>
+    <a class="nav-item" onclick="showPage('instellingen')">
+      <span class="nav-icon">⚙</span> Instellingen
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="user-av">TK</div>
+      <div>
+        <div class="user-name">Tom Kappers</div>
+        <div class="user-plan">Pro plan</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <!-- PAGE: DASHBOARD -->
+  <div id="page-dashboard">
+    <div class="topbar">
+      <div class="page-title">Dashboard</div>
+      <div class="topbar-right">
+        <span style="font-size:0.85rem;color:var(--gray)">Dinsdag 21 april 2026</span>
+        <button class="btn-add" onclick="alert('Handmatig afspraak toevoegen — komt in v1.1')">+ Afspraak</button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Afspraken vandaag</div>
+        <div class="stat-value green">6</div>
+        <div class="stat-delta up">+2 vs gisteren</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Nieuwe gesprekken</div>
+        <div class="stat-value">3</div>
+        <div class="stat-delta">via WhatsApp</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Omzet deze week</div>
+        <div class="stat-value green">€284</div>
+        <div class="stat-delta up">+18% vs vorige week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Klanten deze maand</div>
+        <div class="stat-value">47</div>
+        <div class="stat-delta up">+12 nieuw</div>
+      </div>
+    </div>
+
+    <!-- TWO COL -->
+    <div class="two-col">
+      <!-- AFSPRAKEN VANDAAG -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Afspraken vandaag</span>
+          <span class="badge badge-green">6 gepland</span>
+        </div>
+        <div class="date-label">Dinsdag 21 april</div>
+        <div class="appointment-list">
+          <div class="appointment">
+            <div class="appt-time">09:00</div>
+            <div class="appt-dot"></div>
+            <div class="appt-info">
+              <div class="appt-name">Sara Martens</div>
+              <div class="appt-service">Knippen + föhnen</div>
+            </div>
+            <div class="appt-price">€38</div>
+          </div>
+          <div class="appointment">
+            <div class="appt-time">10:00</div>
+            <div class="appt-dot"></div>
+            <div class="appt-info">
+              <div class="appt-name">Jan De Smedt</div>
+              <div class="appt-service">Herrenknippen</div>
+            </div>
+            <div class="appt-price">€18</div>
+          </div>
+          <div class="appointment">
+            <div class="appt-time">11:30</div>
+            <div class="appt-dot orange"></div>
+            <div class="appt-info">
+              <div class="appt-name">Lien Claes</div>
+              <div class="appt-service">Kleuren (volledig)</div>
+            </div>
+            <div class="appt-price">€55</div>
+          </div>
+          <div class="appointment">
+            <div class="appt-time">13:00</div>
+            <div class="appt-dot gray"></div>
+            <div class="appt-info">
+              <div class="appt-name">Pieter Vanden Berg</div>
+              <div class="appt-service">Herrenknippen + baard</div>
+            </div>
+            <div class="appt-price">€30</div>
+          </div>
+          <div class="appointment">
+            <div class="appt-time">14:00</div>
+            <div class="appt-dot gray"></div>
+            <div class="appt-info">
+              <div class="appt-name">Nathalie Peeters</div>
+              <div class="appt-service">Dames knippen</div>
+            </div>
+            <div class="appt-price">€28</div>
+          </div>
+          <div class="appointment">
+            <div class="appt-time">15:30</div>
+            <div class="appt-dot gray"></div>
+            <div class="appt-info">
+              <div class="appt-name">Remi Jacobs</div>
+              <div class="appt-service">Herrenknippen</div>
+            </div>
+            <div class="appt-price">€18</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENTE GESPREKKEN -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Recente gesprekken</span>
+          <span class="badge badge-gray">WhatsApp</span>
+        </div>
+        <div class="chat-list">
+          <div class="chat-item unread">
+            <div class="chat-av">SM</div>
+            <div class="chat-info">
+              <div class="chat-name">Sara Martens</div>
+              <div class="chat-preview">Kan ik vrijdag ook terecht?</div>
+            </div>
+            <div class="chat-meta">
+              <div class="chat-time">09:32</div>
+              <div class="chat-unread">1</div>
+            </div>
+          </div>
+          <div class="chat-item unread">
+            <div class="chat-av">JD</div>
+            <div class="chat-info">
+              <div class="chat-name">Julie Desmet</div>
+              <div class="chat-preview">Afspraak bevestigd voor woensdag ✅</div>
+            </div>
+            <div class="chat-meta">
+              <div class="chat-time">08:15</div>
+              <div class="chat-unread">2</div>
+            </div>
+          </div>
+          <div class="chat-item unread">
+            <div class="chat-av">RV</div>
+            <div class="chat-info">
+              <div class="chat-name">Raf Vermeersch</div>
+              <div class="chat-preview">Wat kost een baard trimmen?</div>
+            </div>
+            <div class="chat-meta">
+              <div class="chat-time">gisteren</div>
+              <div class="chat-unread">1</div>
+            </div>
+          </div>
+          <div class="chat-item">
+            <div class="chat-av">LC</div>
+            <div class="chat-info">
+              <div class="chat-name">Lien Claes</div>
+              <div class="chat-preview">Bedankt! Tot straks 🙏</div>
+            </div>
+            <div class="chat-meta">
+              <div class="chat-time">gisteren</div>
+            </div>
+          </div>
+          <div class="chat-item">
+            <div class="chat-av">NP</div>
+            <div class="chat-info">
+              <div class="chat-name">Nathalie Peeters</div>
+              <div class="chat-preview">Afspraak verzet naar 14u</div>
+            </div>
+            <div class="chat-meta">
+              <div class="chat-time">ma</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLACEHOLDER PAGES -->
+  <div id="page-afspraken" style="display:none">
+    <div class="topbar"><div class="page-title">Afspraken</div></div>
+    <div class="card"><div class="empty">Volledige agenda-weergave — komt in stap 2 van de bouw.</div></div>
+  </div>
+  <div id="page-gesprekken" style="display:none">
+    <div class="topbar"><div class="page-title">WhatsApp gesprekken</div></div>
+    <div class="card"><div class="empty">Live WhatsApp inbox — wordt gekoppeld via Twilio in stap 2.</div></div>
+  </div>
+  <div id="page-klanten" style="display:none">
+    <div class="topbar"><div class="page-title">Klanten</div></div>
+    <div class="card"><div class="empty">Klantenlijst met geschiedenis — komt in stap 2.</div></div>
+  </div>
+  <div id="page-instellingen" style="display:none">
+    <div class="topbar"><div class="page-title">Instellingen</div></div>
+    <div class="card"><div class="empty">Salongegevens, diensten, tijdsloten — wordt gebouwd in stap 2.</div></div>
+  </div>
+</main>
+
+<script>
+function showPage(name) {
+  ['dashboard','afspraken','gesprekken','klanten','instellingen'].forEach(p => {
+    document.getElementById('page-'+p).style.display = p===name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
