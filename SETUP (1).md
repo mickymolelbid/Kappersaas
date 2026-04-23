@@ -135,6 +135,3 @@ create table gesprekken (
 ---
 
 ## Volgende stap na setup
-
-Zeg tegen Claude: "Bouw nu de WhatsApp webhook API" 
-om de echte chatbot logica te bouwen.
