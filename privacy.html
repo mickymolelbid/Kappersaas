@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacybeleid — KapperBot</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0d0d0d; --white:#f5f2ed; --green:#25d366; --gray:#8a8a8a; --border:#2a2a2a; --card:#161616; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--black); color:var(--white); font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.7; }
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 2.5rem; border-bottom:1px solid var(--border); background:rgba(13,13,13,0.95); backdrop-filter:blur(12px); }
+  .logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.4rem; display:flex; align-items:center; gap:8px; text-decoration:none; color:var(--white); }
+  .logo-dot { width:10px; height:10px; background:var(--green); border-radius:50%; }
+  .container { max-width:800px; margin:0 auto; padding:7rem 2rem 4rem; }
+  h1 { font-family:'Syne',sans-serif; font-size:2.5rem; font-weight:800; margin-bottom:0.5rem; letter-spacing:-1px; }
+  .subtitle { color:var(--gray); font-size:0.9rem; margin-bottom:3rem; padding-bottom:2rem; border-bottom:1px solid var(--border); }
+  h2 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:700; margin:2.5rem 0 1rem; color:var(--green); }
+  p { margin-bottom:1rem; color:#c8c4bc; }
+  ul { margin:0 0 1rem 1.5rem; color:#c8c4bc; }
+  ul li { margin-bottom:0.4rem; }
+  table { width:100%; border-collapse:collapse; margin:1rem 0 2rem; }
+  th { background:var(--card); padding:0.75rem 1rem; text-align:left; font-size:0.85rem; color:var(--gray); border-bottom:1px solid var(--border); }
+  td { padding:0.75rem 1rem; border-bottom:1px solid var(--border); color:#c8c4bc; font-size:0.9rem; }
+  .info-box { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.5rem; margin:2rem 0; }
+  .info-box p { margin:0 0 0.5rem; color:var(--white); }
+  .info-box p:last-child { margin:0; }
+  footer { border-top:1px solid var(--border); padding:2rem 2.5rem; text-align:center; color:var(--gray); font-size:0.85rem; margin-top:4rem; }
+  a { color:var(--green); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo"><span class="logo-dot"></span>KapperBot</a>
+</nav>
+
+<div class="container">
+  <h1>Privacybeleid</h1>
+  <p class="subtitle">Laatst bijgewerkt: april 2026 · GDPR-conform</p>
+
+  <div class="info-box">
+    <p><strong>Verwerkingsverantwoordelijke:</strong></p>
+    <p>MBD Advies en Projecten BV</p>
+    <p>BTW: BE1031104852 · Antwerpen, België</p>
+    <p>E-mail: <a href="mailto:privacy@kapperbot.be">privacy@kapperbot.be</a></p>
+  </div>
+
+  <h2>1. Welke gegevens verzamelen wij?</h2>
+  <p>KapperBot verwerkt de volgende categorieën persoonsgegevens:</p>
+  <table>
+    <tr><th>Categorie</th><th>Gegevens</th><th>Doel</th></tr>
+    <tr><td>Kappers (klanten)</td><td>Naam, e-mail, telefoonnummer, salongegevens</td><td>Accountbeheer, facturatie</td></tr>
+    <tr><td>Eindgebruikers</td><td>WhatsApp-nummer, naam, afspraakgegevens</td><td>Afsprakenbeheer</td></tr>
+    <tr><td>Gesprekken</td><td>WhatsApp-berichten via de chatbot</td><td>Dienstverlening, verbetering AI</td></tr>
+    <tr><td>Betalingen</td><td>Factuurgegevens (verwerkt via Stripe)</td><td>Facturatie</td></tr>
+  </table>
+
+  <h2>2. Rechtsgrondslag</h2>
+  <p>Wij verwerken persoonsgegevens op basis van:</p>
+  <ul>
+    <li><strong>Uitvoering van een overeenkomst:</strong> voor het leveren van onze diensten aan kappers</li>
+    <li><strong>Toestemming:</strong> voor het verwerken van gesprekken van eindgebruikers</li>
+    <li><strong>Gerechtvaardigd belang:</strong> voor het verbeteren van onze diensten</li>
+    <li><strong>Wettelijke verplichting:</strong> voor facturatie en boekhoudkundige verplichtingen</li>
+  </ul>
+
+  <h2>3. Hoe lang bewaren wij uw gegevens?</h2>
+  <ul>
+    <li>Accountgegevens: zolang het abonnement actief is + 2 jaar</li>
+    <li>Gesprekken en afspraken: 12 maanden</li>
+    <li>Factuurgegevens: 7 jaar (wettelijke verplichting)</li>
+    <li>Na opzegging: alle gegevens worden binnen 30 dagen verwijderd, behalve wat wettelijk verplicht is</li>
+  </ul>
+
+  <h2>4. Met wie delen wij uw gegevens?</h2>
+  <p>Wij delen gegevens uitsluitend met vertrouwde verwerkers:</p>
+  <ul>
+    <li><strong>Anthropic:</strong> AI-verwerking van gesprekken (VS — adequaatheidsbesluit)</li>
+    <li><strong>Twilio:</strong> WhatsApp-berichtenverkeer (VS — Standard Contractual Clauses)</li>
+    <li><strong>Supabase:</strong> Databaseopslag (EU)</li>
+    <li><strong>Vercel:</strong> Hosting (VS — Standard Contractual Clauses)</li>
+    <li><strong>Stripe:</strong> Betalingsverwerking (VS — Standard Contractual Clauses)</li>
+  </ul>
+  <p>Wij verkopen uw gegevens nooit aan derden.</p>
+
+  <h2>5. Uw rechten</h2>
+  <p>Onder de GDPR heeft u de volgende rechten:</p>
+  <ul>
+    <li><strong>Recht op inzage:</strong> u kunt opvragen welke gegevens wij van u bewaren</li>
+    <li><strong>Recht op rectificatie:</strong> u kunt onjuiste gegevens laten corrigeren</li>
+    <li><strong>Recht op verwijdering:</strong> u kunt vragen uw gegevens te verwijderen</li>
+    <li><strong>Recht op beperking:</strong> u kunt de verwerking laten beperken</li>
+    <li><strong>Recht op overdraagbaarheid:</strong> u kunt uw gegevens in een leesbaar formaat opvragen</li>
+    <li><strong>Recht van bezwaar:</strong> u kunt bezwaar maken tegen bepaalde verwerkingen</li>
+  </ul>
+  <p>Om deze rechten uit te oefenen, stuur een e-mail naar <a href="mailto:privacy@kapperbot.be">privacy@kapperbot.be</a>. Wij reageren binnen 30 dagen.</p>
+
+  <h2>6. Beveiliging</h2>
+  <p>Wij nemen passende technische en organisatorische maatregelen om uw gegevens te beschermen, waaronder versleuteling van gegevens in transit (HTTPS/TLS), versleuteling van gegevens in rust, toegangscontrole en regelmatige beveiligingsaudits.</p>
+
+  <h2>7. Cookies</h2>
+  <p>Wij maken gebruik van functionele en analytische cookies. Voor meer informatie, zie ons <a href="/cookies.html">Cookiebeleid</a>.</p>
+
+  <h2>8. Klachten</h2>
+  <p>Als u niet tevreden bent met de manier waarop wij uw gegevens verwerken, heeft u het recht een klacht in te dienen bij de Belgische Gegevensbeschermingsautoriteit (GBA): <a href="https://www.gegevensbeschermingsautoriteit.be" target="_blank">www.gegevensbeschermingsautoriteit.be</a></p>
+
+  <h2>9. Wijzigingen</h2>
+  <p>Dit privacybeleid kan worden gewijzigd. De meest recente versie is altijd beschikbaar op kapperbot.be/privacy. Bij wezenlijke wijzigingen worden klanten per e-mail geïnformeerd.</p>
+</div>
+
+<footer>
+  KapperBot is een product van <strong>MBD Advies en Projecten BV</strong> · BTW: BE1031104852 · Antwerpen · <a href="/voorwaarden.html">Voorwaarden</a> · <a href="/cookies.html">Cookies</a>
+</footer>
+</body>
+</html>

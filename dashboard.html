@@ -2,8 +2,20 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>KapperBot Dashboard</title>
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#25d366">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KapperBot">
+<link rel="apple-touch-icon" href="/icons/icon.svg">
+
+<!-- SEO -->
+<meta name="description" content="KapperBot dashboard — beheer je afspraken en WhatsApp gesprekken">
+
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -136,6 +148,13 @@
 <body>
 
 <!-- SIDEBAR -->
+<!-- INSTALLEER BANNER -->
+<div id="installeer-banner" style="display:none;position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:#161616;border:1px solid #25d366;border-radius:12px;padding:0.75rem 1.25rem;z-index:999;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+  <span style="font-size:0.85rem;color:#f5f2ed;">Installeer KapperBot als app</span>
+  <button onclick="installeerApp()" style="background:#25d366;color:#000;border:none;border-radius:6px;padding:0.4rem 1rem;font-weight:700;cursor:pointer;font-size:0.8rem;">Installeer</button>
+  <button onclick="this.parentElement.style.display='none'" style="background:none;border:none;color:#6b6b6b;cursor:pointer;font-size:1rem;">✕</button>
+</div>
+
 <aside class="sidebar">
   <div class="sidebar-logo">
     <span class="logo-dot"></span>
@@ -358,6 +377,26 @@
 </main>
 
 <script>
+// PWA installatie banner
+let installatiePrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  installatiePrompt = e;
+  document.getElementById('installeer-banner').style.display = 'flex';
+});
+function installeerApp() {
+  if (installatiePrompt) {
+    installatiePrompt.prompt();
+    installatiePrompt.userChoice.then(() => {
+      document.getElementById('installeer-banner').style.display = 'none';
+    });
+  }
+}
+// Service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js');
+}
+
 function showPage(name) {
   ['dashboard','afspraken','gesprekken','klanten','instellingen'].forEach(p => {
     document.getElementById('page-'+p).style.display = p===name ? 'block' : 'none';
