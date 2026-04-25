@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KapperBot — Inloggen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:#0d0d0d; --white:#f5f2ed; --green:#25d366;
+    --green-dark:#128c7e; --green-light:rgba(37,211,102,.08);
+    --gray:#999; --card:#141414; --border:#222; --border-light:#2a2a2a;
+    --red:#e74c3c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── NAV ── */
+nav{padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(–border);}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(–white);}
+.logo-dot{width:9px;height:9px;background:var(–green);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.logo-text{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.3rem;}
+.back-link{color:var(–gray);text-decoration:none;font-size:.88rem;transition:color .2s;}
+.back-link:hover{color:var(–white);}
+
+/* ── MAIN ── */
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 1.5rem;position:relative;overflow:hidden;}
+main::before{content:’’;position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(37,211,102,.05) 0%,transparent 65%);pointer-events:none;}
+
+/* ── CARD ── */
+.card{background:var(–card);border:1px solid var(–border);border-radius:20px;padding:2.5rem;width:100%;max-width:420px;animation:fadeUp .5s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.card-icon{width:48px;height:48px;background:var(–green-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:1.5rem;border:1px solid rgba(37,211,102,.2);}
+.card h1{font-family:‘Syne’,sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-0.5px;margin-bottom:.4rem;}
+.card p{font-size:.88rem;color:var(–gray);margin-bottom:2rem;}
+
+/* ── TABS ── */
+.tabs{display:flex;background:var(–black);border-radius:10px;padding:4px;margin-bottom:1.5rem;border:1px solid var(–border);}
+.tab{flex:1;padding:.6rem;border:none;background:none;color:var(–gray);font-family:‘DM Sans’,sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;border-radius:7px;transition:all .2s;}
+.tab.active{background:var(–card);color:var(–white);border:1px solid var(–border-light);}
+
+/* ── FORM ── */
+.form-group{margin-bottom:1rem;}
+.form-group label{display:block;font-size:.75rem;font-weight:600;color:var(–gray);margin-bottom:6px;letter-spacing:.3px;text-transform:uppercase;}
+.form-group input{width:100%;padding:.75rem 1rem;background:var(–black);border:1.5px solid var(–border);border-radius:10px;color:var(–white);font-family:‘DM Sans’,sans-serif;font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+.form-group input:focus{border-color:var(–green);box-shadow:0 0 0 3px rgba(37,211,102,.1);}
+.form-group input::placeholder{color:#444;}
+
+.error-box{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);border-radius:8px;padding:.75rem 1rem;font-size:.82rem;color:#e74c3c;margin-bottom:1rem;display:none;}
+.error-box.show{display:block;}
+
+.btn-submit{width:100%;padding:.9rem;background:var(–green);border:none;border-radius:10px;color:#000;font-family:‘Syne’,sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;transition:all .2s;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-submit:hover{background:#1db954;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,211,102,.25);}
+.btn-submit:disabled{background:var(–border);color:var(–gray);cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-submit .spinner{width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;display:none;}
+.btn-submit.loading .spinner{display:block;}
+.btn-submit.loading .btn-text{display:none;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.divider{display:flex;align-items:center;gap:1rem;margin:1.25rem 0;color:var(–border-light);font-size:.78rem;color:var(–gray);}
+.divider::before,.divider::after{content:’’;flex:1;height:1px;background:var(–border);}
+
+.forgot-link{display:block;text-align:center;color:var(–gray);font-size:.82rem;text-decoration:none;margin-top:1rem;transition:color .2s;}
+.forgot-link:hover{color:var(–green);}
+
+/* ── REGISTER EXTRA ── */
+.plan-select{background:var(–black);border:1.5px solid var(–border);border-radius:10px;color:var(–white);font-family:‘DM Sans’,sans-serif;font-size:.9rem;padding:.75rem 1rem;width:100%;outline:none;cursor:pointer;}
+.plan-select:focus{border-color:var(–green);}
+.plan-select option{background:#1a1a1a;}
+
+/* ── TRUST ── */
+.trust{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(–border);}
+.trust-item{font-size:.72rem;color:#555;display:flex;align-items:center;gap:5px;}
+
+/* ── SUCCESS ── */
+.success-state{display:none;text-align:center;padding:1rem 0;}
+.success-icon{width:60px;height:60px;background:var(–green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:24px;border:1px solid rgba(37,211,102,.3);}
+.success-title{font-family:‘Syne’,sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.5rem;}
+.success-desc{font-size:.88rem;color:var(–gray);margin-bottom:1.5rem;}
+
+@media(max-width:480px){nav{padding:1rem;}.card{padding:1.75rem;}}
+</style>
+
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <span class="logo-dot"></span>
+    <span class="logo-text">KapperBot</span>
+  </a>
+  <a href="/" class="back-link">← Terug naar website</a>
+</nav>
+
+<main>
+  <div class="card">
+    <div class="card-icon">✂</div>
+    <h1>Welkom terug</h1>
+    <p>Log in op je KapperBot dashboard</p>
+
+```
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('login', this)">Inloggen</button>
+  <button class="tab" onclick="switchTab('register', this)">Registreren</button>
+</div>
+
+<div class="error-box" id="error-box"></div>
+
+<!-- LOGIN FORM -->
+<div id="form-login">
+  <div class="form-group">
+    <label>E-mailadres</label>
+    <input type="email" id="login-email" placeholder="jouw@email.be" autocomplete="email">
+  </div>
+  <div class="form-group">
+    <label>Wachtwoord</label>
+    <input type="password" id="login-ww" placeholder="••••••••" autocomplete="current-password">
+  </div>
+  <button class="btn-submit" id="btn-login" onclick="login()">
+    <span class="btn-text">Inloggen →</span>
+    <div class="spinner"></div>
+  </button>
+  <a href="/wachtwoord-vergeten" class="forgot-link">Wachtwoord vergeten?</a>
+</div>
+
+<!-- REGISTER FORM -->
+<div id="form-register" style="display:none">
+  <div class="form-group">
+    <label>Naam salon</label>
+    <input type="text" id="reg-salon" placeholder="Kapper Tom">
+  </div>
+  <div class="form-group">
+    <label>E-mailadres</label>
+    <input type="email" id="reg-email" placeholder="jouw@email.be" autocomplete="email">
+  </div>
+  <div class="form-group">
+    <label>Wachtwoord</label>
+    <input type="password" id="reg-ww" placeholder="Min. 8 tekens" autocomplete="new-password">
+  </div>
+  <div class="form-group">
+    <label>Plan</label>
+    <select class="plan-select" id="reg-plan">
+      <option value="starter">Starter — €29/mnd</option>
+      <option value="pro" selected>Pro — €59/mnd</option>
+      <option value="salon">Salon — €149/mnd</option>
+    </select>
+  </div>
+  <button class="btn-submit" id="btn-register" onclick="register()">
+    <span class="btn-text">Account aanmaken →</span>
+    <div class="spinner"></div>
+  </button>
+  <p style="font-size:.75rem;color:#555;text-align:center;margin-top:1rem;">
+    Door te registreren ga je akkoord met onze <a href="/voorwaarden" style="color:var(--gray);">voorwaarden</a>
+  </p>
+</div>
+
+<!-- SUCCESS STATE -->
+<div class="success-state" id="success-state">
+  <div class="success-icon">✓</div>
+  <div class="success-title">Check je inbox!</div>
+  <div class="success-desc">We hebben een bevestigingsmail gestuurd. Klik op de link om je account te activeren.</div>
+  <button class="btn-submit" onclick="window.location.href='/'">Terug naar website</button>
+</div>
+
+<div class="trust">
+  <span class="trust-item">🇧🇪 Belgisch product</span>
+  <span class="trust-item">🔒 GDPR-conform</span>
+  <span class="trust-item">🔐 Veilig inloggen</span>
+</div>
+```
+
+  </div>
+</main>
+
+<script>
+const SUPABASE_URL = 'https://ftqeiuqodmwgufdxigwk.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_J3oKDHRYZ7jj_DlyoY-glg_HoF69-nN';
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('form-login').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('form-register').style.display = tab === 'register' ? 'block' : 'none';
+  hideError();
+}
+
+function showError(msg) {
+  const box = document.getElementById('error-box');
+  box.textContent = msg;
+  box.classList.add('show');
+}
+
+function hideError() {
+  document.getElementById('error-box').classList.remove('show');
+}
+
+function setLoading(btnId, loading) {
+  const btn = document.getElementById(btnId);
+  btn.classList.toggle('loading', loading);
+  btn.disabled = loading;
+}
+
+async function login() {
+  hideError();
+  const email = document.getElementById('login-email').value.trim();
+  const ww = document.getElementById('login-ww').value;
+
+  if (!email || !ww) { showError('Vul alle velden in.'); return; }
+
+  setLoading('btn-login', true);
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+      },
+      body: JSON.stringify({ email, password: ww })
+    });
+
+    const data = await res.json();
+
+    if (data.access_token) {
+      localStorage.setItem('sb-token', data.access_token);
+      localStorage.setItem('sb-user', JSON.stringify(data.user));
+      window.location.href = '/dashboard';
+    } else {
+      showError('Verkeerd e-mailadres of wachtwoord.');
+    }
+  } catch (err) {
+    showError('Verbindingsfout. Probeer opnieuw.');
+  } finally {
+    setLoading('btn-login', false);
+  }
+}
+
+async function register() {
+  hideError();
+  const salon = document.getElementById('reg-salon').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const ww = document.getElementById('reg-ww').value;
+  const plan = document.getElementById('reg-plan').value;
+
+  if (!salon || !email || !ww) { showError('Vul alle velden in.'); return; }
+  if (ww.length < 8) { showError('Wachtwoord moet min. 8 tekens zijn.'); return; }
+
+  setLoading('btn-register', true);
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+      },
+      body: JSON.stringify({
+        email,
+        password: ww,
+        data: { salon_naam: salon, plan }
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.id || data.user) {
+      document.getElementById('form-register').style.display = 'none';
+      document.getElementById('success-state').style.display = 'block';
+    } else {
+      showError(data.msg || 'Registratie mislukt. Probeer opnieuw.');
+    }
+  } catch (err) {
+    showError('Verbindingsfout. Probeer opnieuw.');
+  } finally {
+    setLoading('btn-register', false);
+  }
+}
+
+// Enter key support
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    if (document.getElementById('form-login').style.display !== 'none') login();
+    else register();
+  }
+});
+
+// Check if already logged in
+const token = localStorage.getItem('sb-token');
+if (token) window.location.href = '/dashboard';
+</script>
+
+</body>
+</html>
