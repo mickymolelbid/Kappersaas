@@ -1,0 +1,13 @@
+{
+  "name": "kapperbot",
+  "version": "1.0.0",
+  "description": "KapperBot — AI WhatsApp chatbot voor kappers",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.20.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "resend": "^3.0.0",
+    "stripe": "^14.0.0",
+    "twilio": "^5.0.0"
+  }
+}
