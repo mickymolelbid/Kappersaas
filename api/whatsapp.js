@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-opus-4-5',
         max_tokens: 300,
         system: `Je bent een vriendelijke AI-assistent voor een kapperszaak in België.
 Je helpt klanten afspraken maken via WhatsApp.
