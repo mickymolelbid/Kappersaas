@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-opus-4-5',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 300,
         system: `Je bent een vriendelijke AI-assistent voor een kapperszaak in België.
 Je helpt klanten afspraken maken via WhatsApp.
@@ -36,12 +36,6 @@ Beschikbare diensten:
 
 Beschikbare tijdsloten: maandag t/m zaterdag 9:00-17:00. Gesloten op zondag.
 
-Wanneer een klant een afspraak wil:
-1. Vraag welke dienst
-2. Geef 2-3 beschikbare tijdsloten
-3. Vraag naam ter bevestiging
-4. Bevestig de afspraak
-
 Antwoord ALTIJD kort en vriendelijk, max 3 zinnen. Schrijf in het Nederlands.`,
         messages: [
           { role: 'user', content: klantBericht }
@@ -50,6 +44,7 @@ Antwoord ALTIJD kort en vriendelijk, max 3 zinnen. Schrijf in het Nederlands.`,
     });
 
     const aiData = await aiResponse.json();
+    console.log('Anthropic response:', JSON.stringify(aiData));
     const antwoord = aiData.content?.[0]?.text || 'Sorry, er ging iets mis. Probeer opnieuw.';
 
     // Stuur antwoord via Twilio TwiML
