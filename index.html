@@ -133,7 +133,7 @@
   .btn-submit:hover{background:#1db954;}
   .switch-form{text-align:center;margin-top:1.5rem;font-size:.83rem;color:#bbb;}
   .switch-form a{color:var(--green);cursor:pointer;}
-  @media(max-width:600px){nav{padding:1rem 1.25rem;}.nav-links a:not(.btn-nav){display:none;}.stats{gap:2rem;}}
+  @media(max-width:600px){nav{padding:1rem 1.25rem;}.nav-links a:not(.btn-nav):not([href="/login"]){display:none;}.nav-links a[href="/login"]{font-size:.8rem;padding:.4rem .8rem;border:1px solid var(--border-light);border-radius:6px;}.stats{gap:2rem;}}
 </style>
 </head>
 <body>
