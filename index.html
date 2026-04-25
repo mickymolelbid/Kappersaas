@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
@@ -143,6 +144,7 @@
     <a href="#hoe-werkt-het">Hoe het werkt</a>
     <a href="#pricing">Prijzen</a>
     <a href="#addons">Extra's</a>
+    <a href="/login" style="color:var(--gray);text-decoration:none;font-size:.9rem;transition:color .2s;">Inloggen</a>
     <a href="#" class="btn-nav" onclick="openModal('register')">Gratis starten</a>
   </div>
 </nav>
@@ -173,8 +175,8 @@
 
 <div class="stats">
   <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Afspraken inplannen</div></div>
-  <div class="stat"><div class="stat-num">3 sec</div><div class="stat-label">Reactietijd bot</div></div>
-  <div class="stat"><div class="stat-num">€0</div><div class="stat-label">Eerste maand</div></div>
+  <div class="stat"><div class="stat-num">14</div><div class="stat-label">Dagen gratis</div></div>
+  <div class="stat"><div class="stat-num">€0</div><div class="stat-label">Betaling eerste maand</div></div>
   <div class="stat"><div class="stat-num">5 min</div><div class="stat-label">Setup tijd</div></div>
 </div>
 
@@ -206,11 +208,11 @@
   <h2>Eerlijk en transparant</h2>
 
   <div class="launch-banner">
-    <h3>🚀 Eerste maand volledig gratis</h3>
-    <p>Geen creditcard nodig. Opzeggen wanneer je wil.</p>
+    <h3>🚀 14 dagen volledig gratis uitproberen</h3>
+    <p>Vul je betaalgegevens in maar er wordt <strong style="color:var(--white)">niets afgehouden tijdens de proefperiode</strong>. Pas na 14 dagen wordt je eerste betaling verwerkt. Opzeggen kan altijd — zelfs tijdens de proefperiode.</p>
     <div class="counter">
-      <div><div class="counter-num">30</div><div class="counter-label">Dagen gratis</div></div>
-      <div><div class="counter-num">0</div><div class="counter-label">Creditcard nodig</div></div>
+      <div><div class="counter-num">14</div><div class="counter-label">Dagen gratis</div></div>
+      <div><div class="counter-num">0</div><div class="counter-label">Betaling nu</div></div>
       <div><div class="counter-num">5</div><div class="counter-label">Minuten setup</div></div>
     </div>
     <a href="/contract.html" class="btn-primary">Gratis starten →</a>
@@ -300,7 +302,7 @@
 <div class="cta-section">
   <p class="section-tag">Begin vandaag</p>
   <h2>Eerste maand volledig gratis</h2>
-  <p>Geen creditcard nodig. Opzeggen wanneer je wil.</p>
+  <p>14 dagen gratis uitproberen — je wordt pas na 14 dagen gefactureerd. Maandelijks opzegbaar.</p>
   <a href="/contract.html" class="btn-primary">Gratis starten →</a>
 </div>
 
@@ -348,5 +350,6 @@ function closeModalOutside(e){if(e.target===document.getElementById('modal-overl
 function switchForm(t){document.getElementById('form-login').style.display=t==='login'?'block':'none';document.getElementById('form-register').style.display=t==='register'?'block':'none';}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 </script>
+
 </body>
 </html>
